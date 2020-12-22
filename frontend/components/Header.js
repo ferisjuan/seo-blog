@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Link from 'next/link'
+
 import { APP_NAME } from '../config'
 
 import {
@@ -20,15 +22,23 @@ const Header = _props => {
 	return (
 		<div>
 			<Navbar color='light' light expand='md'>
-				<NavbarBrand href='/'>{APP_NAME}</NavbarBrand>
+				<Link href='/'>
+					<NavbarBrand className='font-weigth-bold'>{APP_NAME}</NavbarBrand>
+				</Link>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
 						<NavItem>
-							<NavLink href='/components/'>Components</NavLink>
+							<Link href='/signup'>
+								<NavLink>Signup</NavLink>
+							</Link>
+						</NavItem>
+						<NavItem>
+							<Link href='/signin'>
+								<NavLink>Signin</NavLink>
+							</Link>
 						</NavItem>
 					</Nav>
-					<NavbarText>Simple Text</NavbarText>
 				</Collapse>
 			</Navbar>
 		</div>
