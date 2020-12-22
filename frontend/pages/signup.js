@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import SignupComponent from '../components/auth/SignupComponent'
 
 import Layout from '../components/Layout'
 
 const Signup = () => (
 	<Layout>
-		<h2>Signup Page</h2>
+		<h2>Signup page</h2>
+		<SignupComponent />
 		<Link href='/'>
 			<a>Home</a>
 		</Link>
