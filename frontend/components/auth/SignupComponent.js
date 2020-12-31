@@ -2,20 +2,22 @@ import { useState } from 'react'
 
 import { signup } from '../../actions/auth'
 
+import { Messages } from '../UI/Messages'
+
 const SignupComponent = () => {
 	const [values, setValues] = useState({
 		name: 'juan',
 		email: 'juan@gmail.com',
 		password: 'test123',
 		error: '',
+		message: '',
 		loading: false,
-		showForm: true,
 	})
 
-	const { name, email, password, error, loading, showForm } = values
+	const { name, email, password, error, message, loading } = values
 
-	const handleSubmit = e => {
-		e.preventDefault()
+	const handleSubmit = event => {
+		event.preventDefault()
 
 		setValues({ ...values, loading: true, error: false })
 
@@ -23,7 +25,6 @@ const SignupComponent = () => {
 
 		signup(user)
 			.then(data => {
-				console.log(data)
 				if (data?.error) {
 					setValues({ ...values, error: data.error })
 				} else {
@@ -32,9 +33,9 @@ const SignupComponent = () => {
 						name: '',
 						email: '',
 						password: '',
-						loading: false,
 						error: '',
-						showForm: false,
+						message: data.message,
+						loading: false,
 					})
 				}
 			})
@@ -82,13 +83,21 @@ const SignupComponent = () => {
 						onChange={handleChange}
 					/>
 				</div>
-				<div className=''>
-					<button className='btn btn-primary'>Submit</button>
+				<div className='form-group'>
+					<button type='submit' className='btn btn-primary'>
+						Submit
+					</button>
 				</div>
 			</form>
 		)
 	}
-	return <>{SignupForm()}</>
+
+	return (
+		<>
+			<Messages loading={loading} error={error} message={message} />
+			{!loading && !message && SignupForm()}
+		</>
+	)
 }
 
 export default SignupComponent

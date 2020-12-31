@@ -28,7 +28,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-// CORS
+// CORS middleware
 if (process.env.NODE_ENV === 'development') {
 	let corsOptions = {
 		origin: 'http://localhost:3000',

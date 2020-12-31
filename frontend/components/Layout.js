@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
 		<>
 			<Header />
 			{children}
-			<footer>Footer</footer>
+			{/* <footer>Footer</footer> */}
 		</>
 	)
 }
