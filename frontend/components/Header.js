@@ -11,7 +11,6 @@ import {
 	Nav,
 	NavItem,
 	NavLink,
-	NavbarText,
 } from 'reactstrap'
 
 const Header = _props => {

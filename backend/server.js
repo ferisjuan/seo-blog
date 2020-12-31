@@ -28,14 +28,18 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+// CORS
+if (process.env.NODE_ENV === 'development') {
+	let corsOptions = {
+		origin: 'http://localhost:3000',
+		optionsSuccessStatus: 200,
+	}
+	app.use(cors(corsOptions))
+}
+
 // routes middleware
 app.use('/api', blogRoutes)
 app.use('/api', authRoutes)
-
-// CORS
-if (process.env.NODE_ENV === 'development') {
-	app.use(cors({ origin: `${process.env.CLIENT_URL}` }))
-}
 
 const port = process.env.PORT || 8000
 app.listen(port, () => {

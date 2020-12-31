@@ -1,11 +1,8 @@
 {
-  "scripts":{
+  "scripts": {
     "start": "concurrently \"yarn --cwd frontend start\" \"sleep 2 && yarn --cwd backend start\""
   },
-  "dependencies": {
-    "isomorphic-fetch": "^3.0.0",
-    "reactstrap": "^8.7.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "concurrently": "^5.3.0"
   }
