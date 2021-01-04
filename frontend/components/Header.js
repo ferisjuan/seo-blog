@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import Router from 'next/router'
 import Link from 'next/link'
 
 import { APP_NAME } from '../config'
+import { signout, signin, authN } from '../actions/auth'
 
 import {
 	Collapse,
@@ -18,6 +20,10 @@ const Header = _props => {
 
 	const toggle = () => setIsOpen(!isOpen)
 
+	const handleSignOut = useCallback(() => {
+		signout(() => Router.replace('/signin'))
+	}, [signout])
+
 	return (
 		<div>
 			<Navbar color='light' light expand='md'>
@@ -26,17 +32,29 @@ const Header = _props => {
 				</Link>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
-					<Nav className='mr-auto' navbar>
-						<NavItem>
-							<Link href='/signup'>
-								<NavLink>Signup</NavLink>
-							</Link>
-						</NavItem>
-						<NavItem>
-							<Link href='/signin'>
-								<NavLink>Signin</NavLink>
-							</Link>
-						</NavItem>
+					<Nav className='ml-auto' navbar>
+						{!authN() && (
+							<>
+								<NavItem>
+									<Link href='/signin'>
+										<NavLink>Signin</NavLink>
+									</Link>
+								</NavItem>
+								<NavItem>
+									<Link href='/signup'>
+										<NavLink>Signup</NavLink>
+									</Link>
+								</NavItem>
+							</>
+						)}
+
+						{authN() && (
+							<NavItem>
+								<NavLink style={{ cursor: 'pointer' }} onClick={handleSignOut}>
+									Signout
+								</NavLink>
+							</NavItem>
+						)}
 					</Nav>
 				</Collapse>
 			</Navbar>

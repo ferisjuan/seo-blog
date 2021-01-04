@@ -11,6 +11,21 @@ export const signin = user => {
 	return authFetch('/api/signin', user)
 }
 
+export const signout = async next => {
+	console.log(1)
+	removeCookie('token')
+	removeLocalStorage('user')
+	next()
+
+	try {
+		await fetch(`${API}/signout`, {
+			method: 'GET',
+		})
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 function authFetch(endPoint, user) {
 	return fetch(`${API}${endPoint}`, {
 		method: 'POST',
@@ -31,6 +46,7 @@ export const setCookie = (key, value) => {
 	if (process.browser) {
 		cookie.set(key, value, {
 			expires: 1,
+			sameSite: 'strict',
 		})
 	}
 }
@@ -39,7 +55,7 @@ export const setCookie = (key, value) => {
 export const getCookie = key => {
 	// Check if is running in the FE (since Next.js runs also in BE)
 	if (process.browser) {
-		cookie.get(key)
+		return cookie.get(key)
 	}
 }
 
@@ -51,16 +67,17 @@ export const removeCookie = key => {
 	}
 }
 
+// get from localstorage
+export const getLocalStorage = key => {
+	if (process.browser) {
+		return localStorage.getItem(key)
+	}
+}
+
 // set to localstorage
 export const setLocalStorage = (key, value) => {
 	if (process.browser) {
 		localStorage.setItem(key, JSON.stringify(value))
-	}
-}
-
-export const getLocalStorage = key => {
-	if (process.browser) {
-		localStorage.getItem(key)
 	}
 }
 
@@ -80,9 +97,10 @@ export const authenticate = (data, next) => {
 
 export const authN = () => {
 	if (process.browser) {
-		const cookieChecked = getCookie('token')
-		if (cookieChecked) {
+		const cookie = getCookie('token')
+		if (cookie) {
 			const user = getLocalStorage('user')
+			console.log(user)
 			return user ? JSON.parse(user) : null
 		}
 	}
