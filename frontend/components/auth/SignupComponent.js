@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Router from 'next/router'
 
-import { signup } from '../../actions/auth'
+import { authN, signup } from '../../actions/auth'
 
 import { Messages } from '../UI/Messages'
 
 const SignupComponent = () => {
+	useEffect(() => {
+		authN() && Router.replace('/')
+	}, [authN])
+
 	const [values, setValues] = useState({
 		name: 'juan',
 		email: 'juan@gmail.com',
